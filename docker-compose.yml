@@ -1,0 +1,52 @@
+version : '3.8'
+
+volumes:
+  mysql_data:
+  static:
+
+services:
+  mysql:
+    container_name: newsapp-mysql
+    build:
+      context: ./mysql
+    env_file:
+      - djnews/.env
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+
+  adminer:
+    container_name: newsapp-adminer
+    image: adminer
+    restart: always
+    ports:
+      - 18080:8080
+    depends_on:
+      - mysql
+
+  newsapp:
+    build:
+      context: ./djnews
+    container_name: newsapp
+    volumes:
+      - ./djnews/:/app/
+      - static:/app/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    command: run_django
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: newsapp-nginx
+    depends_on:
+      - newsapp
+    ports:
+      - "80:7000"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static:/static

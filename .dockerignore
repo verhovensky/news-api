@@ -1,0 +1,9 @@
+#Ignore venv
+venv/
+
+#Ignoring git and cache folders
+.git
+.cache
+
+#Ignoring README.md
+*.md
