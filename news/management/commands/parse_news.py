@@ -26,8 +26,10 @@ class Command(BaseCommand):
             if serializer.is_valid():
                 serializer.save()
             else:
-                self.stdout.write(f"Data not valid: {serializer.errors}")
-        self.stdout.write(self.style.SUCCESS(f"Parsed and loaded {len(ozon)} Ozon news"))
+                self.stdout.write(f"Data not valid: "
+                                  f"{serializer.errors}")
+        self.stdout.write(self.style.SUCCESS(
+            f"Parsed and loaded {len(ozon)} Ozon news"))
         yandex = parse_news_links_yandex()
         for i in yandex.items():
             b = parse_single_article_link_yandex(i[1])
@@ -43,5 +45,7 @@ class Command(BaseCommand):
             if serializer.is_valid():
                 serializer.save()
             else:
-                self.stdout.write(f"Data not valid: {serializer.errors}")
-        self.stdout.write(self.style.SUCCESS(f"Parsed and loaded {len(yandex)} Yandex news"))
+                self.stdout.write(
+                    f"Data not valid: {serializer.errors}")
+        self.stdout.write(self.style.SUCCESS(f"Parsed and loaded "
+                                             f"{len(yandex)} Yandex news"))
