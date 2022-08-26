@@ -1,5 +1,5 @@
 from django.contrib import admin
-from djnews.news import Post
+from news.models import Post
 
 
 class PostAdmin(admin.ModelAdmin):
