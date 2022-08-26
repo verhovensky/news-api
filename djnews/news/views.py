@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 from rest_framework.generics import ListAPIView
-from news.serializers import PostREADSerializer
-from news.models import Post
+from djnews.news import PostREADSerializer
+from djnews.news import Post
 from taggit.forms import TagField
 
 

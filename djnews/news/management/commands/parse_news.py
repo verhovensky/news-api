@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from news.serializers import PostREADSerializer
+from djnews.news import PostREADSerializer
 from django.utils.text import slugify
 from datetime import datetime
 from .yoparser import parse_news_links_ozon, parse_news_links_yandex, \

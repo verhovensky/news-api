@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from taggit.serializers import TagListSerializerField, TaggitSerializer
-from news.models import Post
+from taggit.serializers import TagListSerializerField
+from djnews.news import Post
 
 
 class PostREADSerializer(serializers.ModelSerializer):

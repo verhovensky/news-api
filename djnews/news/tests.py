@@ -1,5 +1,4 @@
 from django.test import TestCase
-from news.models import Post
 
 
 class ListPostTests(TestCase):
