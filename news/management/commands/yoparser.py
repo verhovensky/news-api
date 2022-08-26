@@ -54,18 +54,21 @@ def parse_news_links_ozon() -> dict:
         parsed_json = json.loads(content)
         time.sleep(random.SystemRandom().uniform(0.5, 1.2))
         for count, news in enumerate(parsed_json):
+            ready_tags = [d["name"] for d in news["theme"]]
+            ready_tags.append('ozon')
             post = {'title': news["title"],
                     'link': "https://seller.ozon.ru/news/{}/".
                             format(news["slug"]),
+                    'slug': news["slug"],
                     'date': news["date"],
-                    'tags': news["theme"]}
+                    'tags': ready_tags}
             parsed.update({news["title"]: post})
         start += len(parsed_json)
     return parsed
 
 
 def parse_single_article_link_yandex(article_url: str) -> dict:
-    tags = {}
+    tags = []
     driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
     driver.get(article_url)
     WebDriverWait(driver=driver, timeout=5).until(
@@ -77,29 +80,22 @@ def parse_single_article_link_yandex(article_url: str) -> dict:
                                     "news-info__published-date")\
         .get_attribute("datetime")
     post_body = driver.find_element(By.CLASS_NAME,
-                                    "news-info__post-body").text
+                                    "news-info__post-body").text.replace("\n", "")
     for count, tag in enumerate(driver.find_elements(By.CLASS_NAME,
                                                      "news-info__tag")):
-        tags.update({count: tag.text})
-
+        tags.append(tag.text.strip("#"))
+    tags.append('yandex')
     return {'title': post_title,
             'date': post_date,
             'body': post_body,
             'tags': tags}
 
 
-def parse_single_article_slug_ozon(article_slug: str) -> dict:
-    article_url = f"https://seller.ozon.ru/news/{article_slug}/"
+def parse_single_article_link_ozon(url: str) -> dict:
     driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
-    driver.get(article_url)
+    driver.get(url)
     content = driver.page_source
     print(content)
-    post_body = driver.find_element(By.CLASS_NAME, "new-section").text
+    post_body = driver.find_element(By.CLASS_NAME, "new-section").text.replace("\n", '')
     print(post_body)
     return {'body': post_body}
-
-
-parse_single_article_slug_ozon('fbs-i-realfbs-izmenili-mehaniku-blokirovok')
-
-
-# https://github.com/MaistrenkoAnton/django-material-admin
