@@ -5,6 +5,13 @@ volumes:
   static:
 
 services:
+
+  chrome:
+    image: selenium/standalone-chrome:latest
+    hostname: chrome
+    privileged: true
+    shm_size: 2g
+
   mysql:
     container_name: newsapp-mysql
     build:
