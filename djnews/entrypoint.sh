@@ -3,6 +3,7 @@
 apt-get update
 
 if [ "$1" = "run_django" ]; then
+  python manage.py wait_for_db
   python manage.py makemigrations --no-input
   python manage.py migrate --no-input
   python manage.py collectstatic --no-input
