@@ -30,10 +30,13 @@ chrome_options.add_experimental_option("prefs",
 #         ...
 
 
+chrome_docker_url = "http://chrome:4444"
+
+
 def parse_news_links_yandex() -> dict:
     parsed = {}
-    driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
-    # driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
+    # driver = webdriver.Remote(chrome_docker_url, options=options)
+    driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
     driver.get("https://market.yandex.ru/partners/news")
     for count, news in enumerate(
             driver.find_elements(By.CLASS_NAME,
@@ -46,8 +49,8 @@ def parse_news_links_yandex() -> dict:
 
 def parse_news_links_ozon() -> dict:
     parsed = {}
-    driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
-    # driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
+    # driver = webdriver.Remote(chrome_docker_url, options=options)
+    driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
     start = 0
     while len(parsed) < 10:
         limit = 10 - len(parsed)
@@ -71,8 +74,8 @@ def parse_news_links_ozon() -> dict:
 
 def parse_single_article_link_yandex(article_url: str) -> dict:
     tags = []
-    driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
-    # driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
+    # driver = webdriver.Remote(chrome_docker_url, options=options)
+    driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
     driver.get(article_url)
     WebDriverWait(driver=driver, timeout=5).until(
         EC.presence_of_element_located((By.CLASS_NAME,
@@ -95,8 +98,8 @@ def parse_single_article_link_yandex(article_url: str) -> dict:
 
 
 def parse_single_article_link_ozon(url: str) -> dict:
-    driver = webdriver.Remote("http://chrome:4444/wd/hub", options=options)
-    # driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
+    # driver = webdriver.Remote(chrome_docker_url, options=options)
+    driver = webdriver.Chrome(options=options, chrome_options=chrome_options)
     driver.get(url)
     content = driver.page_source
     print(content)
