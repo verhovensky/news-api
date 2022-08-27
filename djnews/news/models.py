@@ -16,21 +16,3 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse("post_detail", args=[str(self.id)])
 
-# create form/serializer
-# class PostForm(forms.ModelForm):
-#     class Meta:
-#         model = Post
-#         fields = [
-#             'title',
-#             'description',
-#             'tags',
-#         ]
-
-# then in management commands:
-#     if form.is_valid():
-#         newpost = form.save(commit=False)
-#         newpost.slug = slugify(newpost.title)
-#         newpost.save()
-#         # Without this next line the tags won't be saved.
-#         form.save_m2m()
-
