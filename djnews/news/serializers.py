@@ -1,9 +1,10 @@
 from rest_framework import serializers
-from taggit.serializers import TagListSerializerField
 from news.models import Post
+from taggit.serializers import (TagListSerializerField,
+                                TaggitSerializer)
 
 
-class PostREADSerializer(serializers.ModelSerializer):
+class PostREADSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     tags = TagListSerializerField()
 
