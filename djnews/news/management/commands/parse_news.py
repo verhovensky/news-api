@@ -6,17 +6,25 @@ from .yoparser import parse_news_links_ozon, parse_news_links_yandex, \
     parse_single_article_link_yandex, parse_single_article_link_ozon
 
 
+def try_parse_date(text):
+    for fmt in ("%Y-%m-%dT%H:%M:%S",  "%Y-%m-%dT%H:%M:%S.%f",
+                '%Y-%m-%d', '%d.%m.%Y', '%d/%m/%Y',):
+        try:
+            return datetime.strptime(text, fmt)
+        except ValueError:
+            pass
+    return datetime.now()
+
+
 class Command(BaseCommand):
     help = "Parse news from Yandex and Ozon"
 
     def handle(self, *args, **options):
-        # TODO: try except (KeyError)
         self.stdout.write(self.style.SUCCESS("Start parsing..."))
         ozon = parse_news_links_ozon()
         for i in ozon.items():
             b = parse_single_article_link_ozon(i[1]["link"])
-            date = datetime.strptime(i[1]["date"].strip("Z"),
-                                     "%Y-%m-%dT%H:%M:%S.%f")
+            date = try_parse_date(text=i[1]["date"].strip("Z"))
             serializer = PostREADSerializer(
                 data={"title": i[1]["title"],
                       "body": b["body"],
@@ -33,8 +41,7 @@ class Command(BaseCommand):
         yandex = parse_news_links_yandex()
         for i in yandex.items():
             b = parse_single_article_link_yandex(i[1])
-            date = datetime.strptime(b["date"].strip('+03:00'),
-                                     "%Y-%m-%dT%H:%M:%S")
+            date = try_parse_date(text=b["date"].strip('+03:00'))
             slug = slugify(b["title"], allow_unicode=True)
             serializer = PostREADSerializer(
                 data={"title": b["title"],
