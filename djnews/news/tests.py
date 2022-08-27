@@ -1,10 +1,12 @@
 from django.test import TestCase
+from django.core.management import call_command
 
 
 class ListPostTests(TestCase):
 
     # fixture here
 
+    @classmethod
     def setUpTestData(cls):
         cls.user = 1
         # cls.client.login()
