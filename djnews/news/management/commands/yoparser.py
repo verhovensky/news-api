@@ -41,9 +41,10 @@ def parse_news_links_yandex() -> dict:
     for count, news in enumerate(
             driver.find_elements(By.CLASS_NAME,
                                  "link_theme_normal")):
-        link = news.get_attribute("href")
-        if link != '':
-            parsed.update({count: link})
+        if count < 10:
+            link = news.get_attribute("href")
+            if link != '':
+                parsed.update({count: link})
     return parsed
 
 
