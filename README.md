@@ -21,7 +21,7 @@ docker-compose up -d
 
 #### 3) Execute command to parse and create posts (inside container):
 
-docker exec -it <container_id> bash
+docker exec -it <container_id> bash <br>
 python manage.py parse_news
 
 #### Or you can install locally<br>
