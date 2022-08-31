@@ -25,7 +25,7 @@ docker-compose up -d
 docker exec -it <container_id> bash
 ```
 ```
-python manage.py parse_news docker
+python manage.py parse_news --type=docker
 ```
 ### Default admin panel credentials:<br>
 - username: admin<br>
